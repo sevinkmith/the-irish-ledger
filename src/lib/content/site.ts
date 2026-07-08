@@ -19,6 +19,7 @@ export const NAV_LINKS = [
 
 export const FOOTER_LEGAL_LINKS = [
   { label: "About", href: "/about" },
+  { label: "Methodology & Sources", href: "/methodology" },
   { label: "Contact", href: "/contact" },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms", href: "/terms" },
