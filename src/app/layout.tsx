@@ -17,6 +17,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SITE } from "@/lib/content/site";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -56,6 +57,18 @@ export default function RootLayout({
   return (
     <html lang="en-IE" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
+        <Script
+     src="https://www.googletagmanager.com/gtag/js?id=G-ZZWGW31Q7D"
+     strategy="afterInteractive"
+   />
+   <Script id="google-analytics" strategy="afterInteractive">
+     {`
+       window.dataLayer = window.dataLayer || [];
+       function gtag(){dataLayer.push(arguments);}
+       gtag('js', new Date());
+       gtag('config', 'G-ZZWGW31Q7D');
+     `}
+   </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
