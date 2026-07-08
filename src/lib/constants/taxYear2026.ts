@@ -125,10 +125,15 @@ export const MORTGAGE_RULES = {
   /** Illustrative market rate used as a default in the calculator —
    * update periodically. Actual offers vary by lender and profile. */
   indicativeDefaultRateRange: { min: 0.03, max: 0.06, typical: 0.037 },
-  /** Approximate stamp duty on residential property up to €1m */
+  /** Approximate stamp duty on residential property.
+   * Source: Revenue.ie — Stamp Duty rates on a transfer of residential
+   * property (revised in Budget 2025, unchanged for 2026):
+   * 1% up to €1m, 2% on the portion from €1m–€1.5m, 6% above €1.5m. */
   stampDuty: {
     standardRate: 0.01,
-    higherRateThreshold: 1_000_000,
-    higherRate: 0.02,
+    standardRateCeiling: 1_000_000,
+    midRate: 0.02,
+    midRateCeiling: 1_500_000,
+    higherRate: 0.06,
   },
 } as const;
