@@ -115,13 +115,13 @@ export default function MethodologyPage() {
     },
     {
       label: "USC reduced rate (medical card / 70+)",
-      value: `${formatPercent(USC.reducedRate.rate)}, income ≤ ${formatEUR(USC.reducedRate.incomeCeiling)}`,
+      value: `${formatPercent(USC.reducedRate.rate)}, income <= ${formatEUR(USC.reducedRate.incomeCeiling)}`,
       sourceName: "Revenue — Reduced rates of USC",
       sourceUrl: "https://www.revenue.ie/en/jobs-and-pensions/usc/reduced-rates.aspx",
     },
     {
       label: "PRSI Class A employee rate",
-      value: `${formatPercent(PRSI.employeeRateJanToSep)} → ${formatPercent(
+      value: `${formatPercent(PRSI.employeeRateJanToSep)} to ${formatPercent(
         PRSI.employeeRateFromOct
       )} from 1 Oct 2026`,
       sourceName: "gov.ie — PRSI Class A rates",
@@ -215,17 +215,17 @@ export default function MethodologyPage() {
         <div className="flex items-center gap-2.5">
           <ShieldCheck size={22} className="text-cobalt" />
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate">
-            Trust & accuracy
+            Trust and accuracy
           </p>
         </div>
         <h1 className="mt-3 font-display text-4xl leading-tight text-ink">
-          Methodology &amp; Sources
+          Methodology and Sources
         </h1>
         <p className="mt-4 max-w-xl text-base leading-relaxed text-slate">
-          We&apos;d rather you check a figure against Revenue.ie or the Central
+          We would rather you check a figure against Revenue.ie or the Central
           Bank of Ireland than take our word for it. Every rate, band and
           limit used across {SITE.name}&apos;s calculators is listed below,
-          with a direct link to the exact page it comes from — not just the
+          with a direct link to the exact page it comes from, not just the
           organisation&apos;s homepage.
         </p>
         <p className="mt-3 text-sm text-slate">
@@ -276,17 +276,17 @@ export default function MethodologyPage() {
           <h2 className="font-display text-xl text-ink">How we keep this updated</h2>
           <p className="text-sm leading-relaxed text-ink-2">
             Every rate above lives in a single, centralised file in our
-            codebase — nothing is hand-typed into individual calculators. When
+            codebase, nothing is hand-typed into individual calculators. When
             Revenue or the Central Bank publish a change (most commonly after
             the annual Budget each October), we update that one file and
             every calculator, guide and this page reflect the change
             immediately.
           </p>
           <p className="text-sm leading-relaxed text-ink-2">
-            Where we simplify something — for example, our PAYE calculator
+            Where we simplify something, for example our PAYE calculator
             uses standard personal credits and doesn&apos;t model every
             possible credit, and our CGT calculator flags Principal Private
-            Residence relief without calculating its exact apportionment —
+            Residence relief without calculating its exact apportionment,
             that simplification is explained directly on the relevant
             calculator, not hidden. See our{" "}
             <a href="/disclaimer" className="text-cobalt underline">
@@ -299,7 +299,7 @@ export default function MethodologyPage() {
             <a href="/contact" className="text-cobalt underline">
               tell us
             </a>{" "}
-            — we&apos;d rather fix it fast than have it sit there quietly
+            — we would rather fix it fast than have it sit there quietly
             wrong.
           </p>
         </div>
