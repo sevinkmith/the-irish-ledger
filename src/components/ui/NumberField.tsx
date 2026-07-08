@@ -1,6 +1,6 @@
 "use client";
 
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, useState } from "react";
 
 interface NumberFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type"> {
@@ -16,6 +16,13 @@ interface NumberFieldProps
 /**
  * A labelled numeric input used across every calculator. Keeps focus rings,
  * spacing and the euro-prefix/percent-suffix treatment consistent.
+ *
+ * Manages its own local text state rather than mirroring the numeric value
+ * directly on every keystroke. A plain `type="number"` input bound straight
+ * to a number forces "0" back in when cleared (can't represent "empty") and
+ * can accumulate a leading zero while typing (e.g. "050000"), because a
+ * leading zero doesn't change the parsed numeric value, so React sometimes
+ * skips re-syncing the displayed text. Keeping local text state avoids both.
  */
 export function NumberField({
   label,
@@ -27,6 +34,18 @@ export function NumberField({
   id,
   ...rest
 }: NumberFieldProps) {
+  const [text, setText] = useState(String(value));
+  const [lastExternalValue, setLastExternalValue] = useState(value);
+
+  if (value !== lastExternalValue) {
+    const parsed = parseFloat(text);
+    const currentAsNumber = Number.isFinite(parsed) ? parsed : 0;
+    if (value !== currentAsNumber) {
+      setText(String(value));
+    }
+    setLastExternalValue(value);
+  }
+
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-ink">
@@ -40,10 +59,23 @@ export function NumberField({
         )}
         <input
           id={id}
-          type="number"
+          type="text"
           inputMode="decimal"
-          value={Number.isFinite(value) ? value : 0}
-          onChange={(e) => onChange(e.target.valueAsNumber || 0)}
+          value={text}
+          onChange={(e) => {
+            const raw = e.target.value;
+            if (raw !== "" && !/^\d*\.?\d*$/.test(raw)) return;
+            setText(raw);
+            const parsed = parseFloat(raw);
+            const next = Number.isFinite(parsed) ? parsed : 0;
+            setLastExternalValue(next);
+            onChange(next);
+          }}
+          onBlur={() => {
+            const parsed = parseFloat(text);
+            const clean = Number.isFinite(parsed) ? parsed : 0;
+            setText(String(clean));
+          }}
           className={`font-mono-figure w-full rounded-lg border border-line-strong bg-white py-2.5 text-sm text-ink outline-none transition-colors focus:border-cobalt ${
             prefix ? "pl-8" : "pl-3.5"
           } ${suffix ? "pr-10" : "pr-3.5"}`}
