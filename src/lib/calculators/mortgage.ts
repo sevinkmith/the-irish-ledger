@@ -54,13 +54,18 @@ function calculateMonthlyRepayment(
 }
 
 function estimateStampDuty(propertyPrice: number): number {
-  const { standardRate, higherRateThreshold, higherRate } = MORTGAGE_RULES.stampDuty;
-  if (propertyPrice <= higherRateThreshold) return propertyPrice * standardRate;
-  const atStandard = higherRateThreshold * standardRate;
-  const atHigher = (propertyPrice - higherRateThreshold) * higherRate;
-  return atStandard + atHigher;
-}
+  const { standardRate, standardRateCeiling, midRate, midRateCeiling, higherRate } =
+    MORTGAGE_RULES.stampDuty;
 
+  const atStandard = Math.min(propertyPrice, standardRateCeiling);
+  const atMid = Math.min(
+    Math.max(propertyPrice - standardRateCeiling, 0),
+    midRateCeiling - standardRateCeiling
+  );
+  const atHigher = Math.max(propertyPrice - midRateCeiling, 0);
+
+  return atStandard * standardRate + atMid * midRate + atHigher * higherRate;
+}
 export function calculateMortgageAffordability(input: MortgageInput): MortgageResult {
   const salary = Math.max(input.salary, 0);
   const partnerSalary = Math.max(input.partnerSalary, 0);
